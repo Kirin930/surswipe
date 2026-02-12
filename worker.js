@@ -2,7 +2,7 @@
 // SURWIPE - Cloudflare Worker
 // ========================================
 
-import { getAssetFromKV } from '@cloudflare/kv-asset-handler';
+//import { getAssetFromKV } from '@cloudflare/kv-asset-handler';
 
 // Rate limiting
 const rateLimitStore = new Map();
