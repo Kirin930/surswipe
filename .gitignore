@@ -24,3 +24,5 @@ dist/
 build/
 
 # Misc
+server.ks
+server_old.js
