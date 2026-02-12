@@ -443,7 +443,7 @@ class SurwipeApp {
                 email: this.state.user.email
             },
             answers: this.state.answers,
-            /*meta: {
+            meta: {
                 user_agent: navigator.userAgent,
                 language: navigator.language,
                 timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -456,7 +456,7 @@ class SurwipeApp {
             captcha: {
                 provider: "recaptcha",
                 token: this.state.captchaToken
-            }*/
+            }
         };
     }
 

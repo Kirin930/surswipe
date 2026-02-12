@@ -27,8 +27,9 @@ const QUESTIONS = [
 
 // Webhook configuration
 const WEBHOOK_CONFIG = {
-    // Replace this URL with your actual webhook endpoint
-    url: 'https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjcwNTZjMDYzMTA0MzY1MjY4NTUzNjUxMzMi_pc',
+    // For Cloudflare Pages Functions, post to the local API route.
+    // The function then verifies reCAPTCHA server-side and forwards to Pabbly.
+    url: '/api/submit',
     timeout: 10000, // 10 seconds
     maxRetries: 2
 };

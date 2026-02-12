@@ -74,33 +74,25 @@ Map these webhook fields to your spreadsheet columns:
 
 ## Step 3: Configure Application
 
-### Update `index.html`
-
-Find this line (around line 7):
-```html
-<script src="https://www.google.com/recaptcha/api.js?render=YOUR_RECAPTCHA_V3_SITE_KEY_HERE"></script>
-```
-
-Replace `YOUR_RECAPTCHA_V3_SITE_KEY_HERE` with your **reCAPTCHA v3 Site Key**:
-```html
-<script src="https://www.google.com/recaptcha/api.js?render=6LcXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"></script>
-```
-
 ### Update `questions.js`
 
 Find this section:
 ```javascript
+const WEBHOOK_CONFIG = {
+    url: '/api/submit',
+    timeout: 10000,
+    maxRetries: 2
+};
+
 const RECAPTCHA_CONFIG = {
-    siteKey: 'YOUR_RECAPTCHA_V3_SITE_KEY_HERE',
-    action: 'submit'
+    siteKey: 'YOUR_RECAPTCHA_V3_SITE_KEY_HERE'
 };
 ```
 
 Replace with your **reCAPTCHA v3 Site Key**:
 ```javascript
 const RECAPTCHA_CONFIG = {
-    siteKey: '6LcXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
-    action: 'submit'
+    siteKey: '6LcXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
 };
 ```
 
