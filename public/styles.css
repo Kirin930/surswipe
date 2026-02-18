@@ -495,7 +495,7 @@ body {
 
 #form-card {
     padding: 1.35rem 1.1rem 1.35rem;
-    touch-action: pan-y;
+    touch-action: none;
 }
 
 #form-card .card-content {
@@ -558,6 +558,32 @@ body {
 
 #form-card .form-instruction span {
     font-size: 0.85rem;
+}
+
+#form-card .form-card-footer {
+    margin-top: 0.15rem;
+    padding-top: 0.55rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.35rem 0.85rem;
+    flex-shrink: 0;
+    font-size: 0.72rem;
+    line-height: 1.2;
+    color: var(--text-secondary);
+    z-index: 1;
+}
+
+#form-card .form-card-footer a {
+    color: inherit;
+    text-decoration: none;
+}
+
+#form-card .form-card-footer a:hover,
+#form-card .form-card-footer a:focus-visible {
+    color: var(--yes-color);
+    text-decoration: underline;
 }
 
 /* ========================================
