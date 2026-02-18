@@ -164,6 +164,8 @@ class SurwipeApp {
         const firstName = document.getElementById('first-name');
         const lastName = document.getElementById('last-name');
         const email = document.getElementById('email');
+        const consent = document.getElementById('consent');
+        const consentContainer = consent?.closest('.privacy-consent');
 
         let isValid = true;
 
@@ -190,6 +192,14 @@ class SurwipeApp {
             isValid = false;
         } else {
             email.classList.remove('invalid');
+        }
+
+        // Validate privacy consent
+        if (!consent || !consent.checked) {
+            consentContainer?.classList.add('invalid');
+            isValid = false;
+        } else {
+            consentContainer?.classList.remove('invalid');
         }
 
         return isValid;
@@ -650,6 +660,14 @@ class SurwipeApp {
             input?.addEventListener('input', () => {
                 input.classList.remove('invalid');
             });
+        });
+
+        const consent = document.getElementById('consent');
+        const consentContainer = consent?.closest('.privacy-consent');
+        consent?.addEventListener('change', () => {
+            if (consent.checked) {
+                consentContainer?.classList.remove('invalid');
+            }
         });
     }
 

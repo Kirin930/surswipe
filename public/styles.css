@@ -452,6 +452,11 @@ body {
     border-radius: 2px;
 }
 
+.privacy-consent.invalid {
+    border-color: rgba(245, 87, 108, 0.7);
+    box-shadow: 0 0 0 2px rgba(245, 87, 108, 0.2);
+}
+
 .form-instruction {
     display: flex;
     align-items: center;
