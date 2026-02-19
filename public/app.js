@@ -97,6 +97,11 @@ class SurwipeApp {
         this.showScreen('intro-screen');
         this.state.step = 'INTRO';
         this.updateProgress(0);
+
+        if (this.swipeHandler) {
+            this.swipeHandler.destroy();
+            this.swipeHandler = null;
+        }
         
         const card = document.getElementById('intro-card');
         this.attachSwipeHandler(card, (direction) => {
@@ -145,6 +150,11 @@ class SurwipeApp {
         this.showScreen('form-screen');
         this.state.step = 'FORM';
         this.updateProgress(20);
+
+        if (this.swipeHandler) {
+            this.swipeHandler.destroy();
+            this.swipeHandler = null;
+        }
         
         const card = document.getElementById('form-card');
         this.attachSwipeHandler(card, (direction) => {
@@ -434,7 +444,10 @@ class SurwipeApp {
             if (response.ok) {
                 this.showSuccessScreen();
             } else {
-                throw new Error('Webhook returned error status');
+                const responseData = await this.readJsonSafe(response);
+                const details = Array.isArray(responseData?.details) ? responseData.details.join(', ') : '';
+                const message = responseData?.error || `Webhook returned status ${response.status}`;
+                throw new Error(details ? `${message} (${details})` : message);
             }
         } catch (error) {
             console.error('Submission error:', error);
@@ -492,6 +505,14 @@ class SurwipeApp {
         }
     }
 
+    async readJsonSafe(response) {
+        try {
+            return await response.json();
+        } catch (_) {
+            return null;
+        }
+    }
+
     showSuccessScreen() {
         this.showScreen('success-screen');
         this.state.step = 'DONE';
@@ -522,20 +543,30 @@ class SurwipeApp {
         let currentX = 0;
         let currentY = 0;
         let isDragging = false;
+        let activePointerId = null;
         
         const SWIPE_THRESHOLD = 80; // pixels
         const VERTICAL_THRESHOLD = 50; // to distinguish from vertical scroll
 
         const handleStart = (e) => {
+            if (e.type.includes('pointer')) {
+                if (!e.isPrimary) return;
+                activePointerId = e.pointerId;
+                element.setPointerCapture?.(e.pointerId);
+            }
+
             const touch = e.type.includes('pointer') ? e : e.touches[0];
             startX = touch.clientX;
             startY = touch.clientY;
+            currentX = startX;
+            currentY = startY;
             isDragging = true;
             element.classList.add('dragging');
         };
 
         const handleMove = (e) => {
             if (!isDragging) return;
+            if (e.type.includes('pointer') && activePointerId !== null && e.pointerId !== activePointerId) return;
 
             const touch = e.type.includes('pointer') ? e : e.touches[0];
             currentX = touch.clientX;
@@ -575,9 +606,14 @@ class SurwipeApp {
 
         const handleEnd = (e) => {
             if (!isDragging) return;
+            if (e.type.includes('pointer') && activePointerId !== null && e.pointerId !== activePointerId) return;
 
             isDragging = false;
             element.classList.remove('dragging');
+            if (e.type.includes('pointer') && activePointerId !== null) {
+                element.releasePointerCapture?.(activePointerId);
+                activePointerId = null;
+            }
 
             const deltaX = currentX - startX;
             const deltaY = currentY - startY;
