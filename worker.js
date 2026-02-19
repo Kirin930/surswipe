@@ -56,22 +56,46 @@ function validateSubmission(data) {
 }
 
 async function verifyRecaptcha(token, secretKey) {
+    if (!secretKey) {
+        return {
+            success: false,
+            error: 'Missing RECAPTCHA_SECRET_KEY'
+        };
+    }
+
     try {
+        const body = new URLSearchParams({
+            secret: secretKey,
+            response: token
+        });
+
         const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: `secret=${secretKey}&response=${token}`
+            body: body.toString()
         });
         const data = await response.json();
         if (!data.success) {
-            return { success: false, error: 'reCAPTCHA verification failed' };
+            return {
+                success: false,
+                error: 'reCAPTCHA verification failed',
+                details: data['error-codes'] || []
+            };
         }
         if (data.score !== undefined && data.score < 0.5) {
-            return { success: false, error: 'Suspicious activity detected', score: data.score };
+            return {
+                success: false,
+                error: 'Suspicious activity detected',
+                score: data.score
+            };
         }
         return { success: true, score: data.score };
     } catch (error) {
-        return { success: false, error: 'reCAPTCHA verification failed' };
+        return {
+            success: false,
+            error: 'reCAPTCHA verification failed',
+            details: [error.message]
+        };
     }
 }
 
@@ -122,7 +146,8 @@ async function handleAPISubmit(request, env) {
         if (!recaptchaResult.success) {
             return new Response(JSON.stringify({
                 success: false,
-                error: recaptchaResult.error
+                error: recaptchaResult.error,
+                details: recaptchaResult.details || []
             }), {
                 status: 400,
                 headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' }
