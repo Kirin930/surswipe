@@ -37,5 +37,5 @@ const WEBHOOK_CONFIG = {
 // reCAPTCHA configuration
 const RECAPTCHA_CONFIG = {
     // Replace with your actual reCAPTCHA site key
-    siteKey: '6LdJOWksAAAAAG1kJa2be9G8S847R1TBARxlERl_', // This is Google's test key
+    siteKey: '6LdJOWksAAAAAG1kJa2be9G8S847R1TBARxlERl_'// This is Google's test key
 };
