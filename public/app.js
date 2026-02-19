@@ -446,14 +446,14 @@ class SurwipeApp {
         return {
             version: "1.0",
             timestamp_iso: new Date().toISOString(),
-            //session_id: this.state.sessionId,
+            session_id: this.state.sessionId,
             user: {
                 first_name: this.state.user.firstName,
                 last_name: this.state.user.lastName,
                 email: this.state.user.email
             },
             answers: this.state.answers,
-            /*meta: {
+            meta: {
                 user_agent: navigator.userAgent,
                 language: navigator.language,
                 timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -466,7 +466,7 @@ class SurwipeApp {
             captcha: {
                 provider: "recaptcha",
                 token: this.state.captchaToken
-            }*/
+            }
         };
     }
 
