@@ -9,7 +9,6 @@ A mobile-only swipe survey application built for collecting job interest data wi
 ✅ **User Data Collection** - Collects name, surname, and email with validation
 ✅ **Multi-Question Survey** - Configurable questions with swipe responses
 ✅ **reCAPTCHA Protection** - Spam prevention before submission
-✅ **Webhook Integration** - Sends data to your endpoint with retry logic
 ✅ **Beautiful UI** - Modern gradient-driven design with smooth animations
 
 ## Quick Start
