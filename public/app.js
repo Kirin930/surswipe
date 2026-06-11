@@ -439,14 +439,14 @@ class SurwipeApp {
         const payload = this.buildPayload();
 
         try {
-            const response = await this.sendToWebhook(payload);
+            const response = await this.sendToApi(payload);
             
             if (response.ok) {
                 this.showSuccessScreen();
             } else {
                 const responseData = await this.readJsonSafe(response);
                 const details = Array.isArray(responseData?.details) ? responseData.details.join(', ') : '';
-                const message = responseData?.error || `Webhook returned status ${response.status}`;
+                const message = responseData?.error || `API returned status ${response.status}`;
                 throw new Error(details ? `${message} (${details})` : message);
             }
         } catch (error) {
@@ -483,12 +483,12 @@ class SurwipeApp {
         };
     }
 
-    async sendToWebhook(payload) {
+    async sendToApi(payload) {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), WEBHOOK_CONFIG.timeout);
+        const timeoutId = setTimeout(() => controller.abort(), API_CONFIG.timeout);
 
         try {
-            const response = await fetch(WEBHOOK_CONFIG.url, {
+            const response = await fetch(API_CONFIG.url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -525,7 +525,7 @@ class SurwipeApp {
     }
 
     async retrySubmission() {
-        if (this.retryCount < WEBHOOK_CONFIG.maxRetries) {
+        if (this.retryCount < API_CONFIG.maxRetries) {
             this.retryCount++;
             await this.submitData();
         } else {

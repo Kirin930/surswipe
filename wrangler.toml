@@ -2,6 +2,10 @@ name = "surswipe"
 main = "worker.js"
 compatibility_date = "2026-02-12"
 
+[[r2_buckets]]
+binding = "SUBMISSIONS_BUCKET"
+bucket_name = "surswipe-submissions"
+
 [assets]
 directory = "./public"
 binding = "ASSETS"

@@ -25,10 +25,9 @@ const QUESTIONS = [
     }
 ];
 
-// Webhook configuration
-const WEBHOOK_CONFIG = {
-    // For Cloudflare Pages Functions, post to the local API route.
-    // The function then verifies reCAPTCHA server-side and forwards to Pabbly.
+// API submission configuration
+const API_CONFIG = {
+    // The Worker verifies reCAPTCHA server-side and saves each submission to R2.
     url: '/api/submit',
     timeout: 10000, // 10 seconds
     maxRetries: 2
